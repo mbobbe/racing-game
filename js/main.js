@@ -18,10 +18,20 @@ import { clamp, damp } from './util.js';
 // ------------------------------------------------------------------
 // Bootstrap
 // ------------------------------------------------------------------
+// Resize helper — iOS Safari exposes the visible area via visualViewport,
+// which excludes the bottom URL bar / home-indicator area that would
+// otherwise be painted behind. Fall back to window.innerWidth/Height.
+function getViewportSize() {
+  const vv = window.visualViewport;
+  if (vv && vv.width > 0) return { w: vv.width, h: vv.height };
+  return { w: window.innerWidth, h: window.innerHeight };
+}
+
 const canvas = document.getElementById('game-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+const initialViewport = getViewportSize();
+renderer.setSize(initialViewport.w, initialViewport.h);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.28;
@@ -29,7 +39,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.3, 2200);
+const camera = new THREE.PerspectiveCamera(62, initialViewport.w / initialViewport.h, 0.3, 2200);
 
 // ------------------------------------------------------------------
 // World
@@ -513,13 +523,16 @@ function idleCamera(dt) {
   camera.updateProjectionMatrix();
 }
 
-// handle resize
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+// handle resize (incl. the iOS Safari dynamic viewport — URL bar show/hide)
+function onResize() {
+  const { w, h } = getViewportSize();
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-});
+}
+window.addEventListener('resize', onResize);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && (state === 'playing' || state === 'go' || state === 'countdown')) {
