@@ -31,7 +31,7 @@ works offline from the static server. No build step, no package.json, no install
 | P | Pause / resume |
 | M | Mute / unmute |
 | Esc | Pause |
-| Touch | Steer buttons + GAS / BRAKE / DRIFT pedals (mobile) |
+| Touch | GAS + DRIFT buttons (left edge, left thumb — release GAS to brake) + L/R steering (bottom right, right thumb) |
 
 ## What's inside
 

@@ -505,7 +505,7 @@ export function stepCar(car, input, world, dt) {
   }
   if (input.brake > 0) {
     if (fwdS > 1) accel -= P.brakeAccel * input.brake;
-    else accel -= P.reverseAccel * input.brake; // reverse
+    else if (!input.brakeNoReverse) accel -= P.reverseAccel * input.brake; // reverse
   }
   if (boosting) accel += P.boostAccel * (1 - Math.max(0, fwdS - 38) / Math.max(1, P.boostTopSpeed - 38)) * 0.85;
 

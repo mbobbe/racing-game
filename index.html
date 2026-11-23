@@ -75,14 +75,15 @@
 
     <!-- Touch controls -->
     <div id="touch-controls" class="hidden">
-      <div id="touch-steer">
-        <button id="touch-left" class="touch-btn">◀</button>
-        <button id="touch-right" class="touch-btn">▶</button>
-      </div>
-      <div id="touch-pedals">
-        <button id="touch-brake" class="touch-btn touch-brake">BRAKE</button>
-        <button id="touch-handbrake" class="touch-btn touch-handbrake">DRIFT</button>
+      <!-- left thumb: GAS in the middle of the left edge, DRIFT below it -->
+      <div id="touch-gas-stack">
         <button id="touch-throttle" class="touch-btn touch-throttle">GAS</button>
+        <button id="touch-handbrake" class="touch-btn touch-handbrake">DRIFT</button>
+      </div>
+      <!-- right thumb: steering at the bottom -->
+      <div id="touch-steer">
+        <button id="touch-left" class="touch-btn touch-steer-btn">◀</button>
+        <button id="touch-right" class="touch-btn touch-steer-btn">▶</button>
       </div>
     </div>
   </div>

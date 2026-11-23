@@ -12,11 +12,13 @@ export function createInput() {
     brake: 0,      // 0..1
     steer: 0,      // -1 (left) .. +1 (right)
     handbrake: false,
+    // set when the brake comes from the release-GAS layout (never reverse)
+    brakeNoReverse: false,
     justPressed: {}, // one-shot edge events, consumed by the game loop
   };
 
   const keys = new Set();
-  let touchSteerL = false, touchSteerR = false, touchThrottle = false, touchBrake = false, touchHandbrake = false;
+  let touchSteerL = false, touchSteerR = false, touchThrottle = false, touchHandbrake = false;
   let touchStart = null;
 
   function onKey(down, code) {
@@ -66,7 +68,6 @@ export function createInput() {
   bindTouchButton('touch-left', (v) => { touchSteerL = v; });
   bindTouchButton('touch-right', (v) => { touchSteerR = v; });
   bindTouchButton('touch-throttle', (v) => { touchThrottle = v; });
-  bindTouchButton('touch-brake', (v) => { touchBrake = v; });
   bindTouchButton('touch-handbrake', (v) => { touchHandbrake = v; });
 
   // First touch anywhere also counts as a start gesture.
@@ -82,7 +83,10 @@ export function createInput() {
     const right = keys.has('right') || touchSteerR;
     state.steer = (left ? 1 : 0) - (right ? 1 : 0);
     state.throttle = (keys.has('throttle') || touchThrottle) ? 1 : 0;
+    // no dedicated brake pedal on touch: releasing GAS hits the break.
+    const touchBrake = touchLayoutVisible && !touchThrottle;
     state.brake = (keys.has('brake') || touchBrake) ? 1 : 0;
+    state.brakeNoReverse = touchBrake && !keys.has('brake');
     state.handbrake = keys.has('handbrake') || touchHandbrake;
 
     // touch device detection (once + on resize)

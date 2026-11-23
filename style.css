@@ -157,8 +157,18 @@ html, body {
 
 /* Touch controls */
 #touch-controls { position: absolute; inset: 0; z-index: 15; pointer-events: none; }
-#touch-steer { position: absolute; left: 0; bottom: 0; display: flex; gap: 16px; padding: 22px; }
-#touch-pedals { position: absolute; right: 0; bottom: 0; display: flex; align-items: flex-end; gap: 14px; padding: 22px; }
+/* left thumb: GAS in the middle of the left edge, DRIFT right below it */
+#touch-gas-stack {
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 24px 18px;
+}
+/* right thumb: steering at the bottom, right edge */
+#touch-steer {
+  position: absolute; right: 0; bottom: 0;
+  display: flex; align-items: flex-end; gap: 18px;
+  padding: 24px 26px;
+}
 .touch-btn {
   pointer-events: auto;
   width: 84px; height: 84px; border-radius: 50%;
@@ -166,14 +176,29 @@ html, body {
   background: rgba(12,18,26,0.55);
   color: #fff; font-size: 26px; font-weight: 700;
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  touch-action: none;
+  user-select: none; -webkit-user-select: none;
 }
-.touch-btn:active { background: rgba(255,211,77,0.35); transform: scale(0.94); }
-.touch-throttle, .touch-brake { width: 96px; height: 96px; font-size: 15px; letter-spacing: 0.08em; }
-.touch-brake { background: rgba(120,30,25,0.55); border-color: rgba(255,120,100,0.4); }
-.touch-throttle { background: rgba(25,90,50,0.55); border-color: rgba(120,255,170,0.4); }
-.touch-handbrake { width: 72px; height: 72px; font-size: 11px; letter-spacing: 0.06em;
-  border-color: rgba(255,150,60,0.55); background: rgba(90,45,10,0.6); }
-.touch-handbrake:active { background: rgba(255,150,60,0.35); border-color: rgba(255,190,110,0.9); }
+.touch-btn:active { background: rgba(255,211,77,0.32); transform: scale(0.93); }
+/* gas: the big primary button on the left edge */
+.touch-throttle {
+  width: 108px; height: 108px; font-size: 22px; letter-spacing: 0.1em;
+  background: rgba(25,94,52,0.62); border-color: rgba(120,255,170,0.5);
+  box-shadow: 0 0 22px rgba(60,220,120,0.35);
+}
+.touch-throttle:active { background: rgba(120,255,170,0.38); border-color: rgba(160,255,200,0.95); }
+/* drift: directly under gas */
+.touch-handbrake {
+  width: 80px; height: 80px; font-size: 12px; letter-spacing: 0.06em;
+  border-color: rgba(255,150,60,0.6); background: rgba(96,48,10,0.62);
+}
+.touch-handbrake:active { background: rgba(255,150,60,0.38); border-color: rgba(255,190,110,0.95); }
+/* steering arrows: large, for the right thumb at the bottom */
+.touch-steer-btn {
+  width: 88px; height: 88px; font-size: 30px;
+  background: rgba(14,20,30,0.6); border-color: rgba(255,255,255,0.3);
+}
+.touch-steer-btn:active { background: rgba(255,211,77,0.34); border-color: rgba(255,211,77,0.9); }
 
 @media (max-width: 900px) {
   #hud-position { font-size: 32px; }
@@ -185,21 +210,27 @@ html, body {
 @media (pointer: coarse) {
   .hud-btn { width: 56px; height: 56px; font-size: 24px; }
   .touch-btn { width: 96px; height: 96px; }
-  .touch-brake, .touch-throttle { width: 110px; height: 110px; }
-  .touch-handbrake { width: 84px; height: 84px; font-size: 13px; }
-  #touch-steer { gap: 20px; padding: 28px; }
-  #touch-pedals { gap: 16px; padding: 28px; }
-  /* bottom row only centers the drift bar; speed + minimap live at the top */
-  #hud-bottom { justify-content: center; padding: 0 0 34px 0; }
+  .touch-throttle { width: 122px; height: 122px; font-size: 24px; }
+  .touch-handbrake { width: 88px; height: 88px; font-size: 13px; }
+  .touch-steer-btn { width: 100px; height: 100px; font-size: 32px; }
+  #touch-gas-stack { gap: 20px; padding: 32px 22px; }
+  #touch-steer { gap: 22px; padding: 30px 32px; }
+  /* bottom row: only speed + drift meter, stacked at bottom center; minimap top-right */
+  #hud-bottom {
+    left: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    gap: 8px; padding: 0 0 12px 0;
+  }
   #hud-speed-box {
-    position: fixed; left: 16px; top: 86px;
-    flex-direction: row; align-items: baseline; gap: 6px;
+    position: static; flex-direction: row; align-items: baseline; gap: 6px;
+    order: 0; align-self: center;
   }
   #hud-speed { font-size: 34px; }
   #hud-unit { font-size: 12px; letter-spacing: 0.14em; }
+  #hud-drift-box { order: 1; align-self: center; }
   #minimap-wrap {
     position: fixed; right: 16px; top: 86px;
     width: 92px; height: 92px;
   }
-  #hud-drift-box { align-self: center; }
+  #hud-position { font-size: 30px; }
 }
