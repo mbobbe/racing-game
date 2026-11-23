@@ -6,6 +6,10 @@ html, body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   color: #eef2f6;
   user-select: none; -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  /* no double-tap zoom / page pan on the whole game surface */
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 #app { position: fixed; inset: 0; }
@@ -159,9 +163,9 @@ html, body {
 #touch-controls { position: absolute; inset: 0; z-index: 15; pointer-events: none; }
 /* left thumb: GAS in the middle of the left edge, DRIFT right below it */
 #touch-gas-stack {
-  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 18px;
-  padding: 24px 18px;
+  position: absolute; left: 0; top: 0; bottom: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 18px; padding: 0 24px;
 }
 /* right thumb: steering at the bottom, right edge */
 #touch-steer {
@@ -213,7 +217,7 @@ html, body {
   .touch-throttle { width: 122px; height: 122px; font-size: 24px; }
   .touch-handbrake { width: 88px; height: 88px; font-size: 13px; }
   .touch-steer-btn { width: 100px; height: 100px; font-size: 32px; }
-  #touch-gas-stack { gap: 20px; padding: 32px 22px; }
+  #touch-gas-stack { gap: 20px; padding: 0 22px; }
   #touch-steer { gap: 22px; padding: 30px 32px; }
   /* bottom row: only speed + drift meter, stacked at bottom center; minimap top-right */
   #hud-bottom {
