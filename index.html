@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Forest Canyon — Endless Free-Race</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- vignette / boost flash -->
+    <div id="vignette"></div>
+    <div id="boost-flash"></div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="hud-top">
+        <div id="hud-left">
+          <div id="hud-position">P1</div>
+          <div id="hud-lap">LAP 1</div>
+        </div>
+        <div id="hud-center">
+          <div id="hud-message"></div>
+        </div>
+        <div id="hud-right">
+          <button id="btn-mute" class="hud-btn" title="Mute (M)" aria-label="Mute">🔊</button>
+          <button id="btn-pause" class="hud-btn" title="Pause (P)" aria-label="Pause">⏸</button>
+          <button id="btn-restart" class="hud-btn" title="Restart (R)" aria-label="Restart">↻</button>
+        </div>
+      </div>
+      <div id="hud-bottom">
+        <div id="hud-speed-box">
+          <span id="hud-speed">0</span>
+          <span id="hud-unit">km/h</span>
+        </div>
+        <div id="hud-drift-box">
+          <div id="hud-drift-label">DRIFT</div>
+          <div id="hud-drift-bar"><div id="hud-drift-fill"></div></div>
+        </div>
+        <div id="minimap-wrap"><canvas id="minimap" width="220" height="220"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Title screen -->
+    <div id="title-screen">
+      <div id="title-card">
+        <div id="title-kicker">FOREST CANYON</div>
+        <h1 id="title-main">ENDLESS<br/>FREE-RACE</h1>
+        <p id="title-sub">Hunt the eight AI drivers through the canyon. Ride the boost pads.</p>
+        <button id="btn-start">START ENGINE</button>
+        <div id="title-hint">Press any key to arm the countdown</div>
+        <div id="title-controls">
+          <span><b>W A S D</b> / <b>↑ ← ↓ →</b> drive</span>
+          <span><b>Shift</b> handbrake</span>
+          <span><b>R</b> reset</span>
+          <span><b>P</b> pause</span>
+          <span><b>M</b> mute</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Countdown -->
+    <div id="countdown" class="hidden"><span id="countdown-num">3</span></div>
+
+    <!-- Pause -->
+    <div id="pause-screen" class="hidden">
+      <div id="pause-card">
+        <h2>PAUSED</h2>
+        <button id="btn-resume">RESUME</button>
+        <div id="pause-hint">Press P or Esc to resume</div>
+      </div>
+    </div>
+
+    <!-- Touch controls -->
+    <div id="touch-controls" class="hidden">
+      <div id="touch-steer">
+        <button id="touch-left" class="touch-btn">◀</button>
+        <button id="touch-right" class="touch-btn">▶</button>
+      </div>
+      <div id="touch-pedals">
+        <button id="touch-brake" class="touch-btn touch-brake">BRAKE</button>
+        <button id="touch-handbrake" class="touch-btn touch-handbrake">DRIFT</button>
+        <button id="touch-throttle" class="touch-btn touch-throttle">GAS</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
