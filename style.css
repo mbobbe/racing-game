@@ -163,9 +163,10 @@ html, body {
 #touch-controls { position: absolute; inset: 0; z-index: 15; pointer-events: none; }
 /* left thumb: GAS in the middle of the left edge, DRIFT right below it */
 #touch-gas-stack {
-  position: absolute; left: 0; top: 0; bottom: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 18px; padding: 0 24px;
+  position: absolute; left: 0; top: 50%;
+  -webkit-transform: translateY(-50%); transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 0 24px;
 }
 /* right thumb: steering at the bottom, right edge */
 #touch-steer {

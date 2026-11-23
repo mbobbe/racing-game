@@ -19,7 +19,6 @@ export function createInput() {
 
   const keys = new Set();
   let touchSteerL = false, touchSteerR = false, touchThrottle = false, touchHandbrake = false;
-  let touchStart = null;
 
   function onKey(down, code) {
     const isDown = down;
@@ -88,11 +87,6 @@ export function createInput() {
     state.brake = (keys.has('brake') || touchBrake) ? 1 : 0;
     state.brakeNoReverse = touchBrake && !keys.has('brake');
     state.handbrake = keys.has('handbrake') || touchHandbrake;
-
-    // touch device detection (once + on resize)
-    if (state._touchCheck !== touchLayoutVisible) {
-      state._touchCheck = touchLayoutVisible;
-    }
     return state;
   }
 
